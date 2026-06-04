@@ -135,8 +135,17 @@ CSRF_TRUSTED_ORIGINS = env_list(
     "DJANGO_CSRF_TRUSTED_ORIGINS",
     ["http://localhost:5173", "http://127.0.0.1:5173"],
 )
+CORS_ALLOWED_ORIGINS = set(
+    env_list(
+        "CORS_ALLOWED_ORIGINS",
+        ["http://localhost:5173", "http://127.0.0.1:5173"],
+    )
+)
 
 CSRF_COOKIE_SECURE = env_bool("DJANGO_CSRF_COOKIE_SECURE", not DEBUG)
 SESSION_COOKIE_SECURE = env_bool("DJANGO_SESSION_COOKIE_SECURE", not DEBUG)
 
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+
+OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
+OPENAI_MODEL = os.environ.get("OPENAI_MODEL", "gpt-4o-mini")
