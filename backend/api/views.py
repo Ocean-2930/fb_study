@@ -39,10 +39,10 @@ def message(request):
     if not isinstance(text, str):
         return with_cors(request, JsonResponse({"ok": False, "error": "text must be a string"}, status=400))
 
-    client = OpenAI()
+    client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
     response = client.responses.create(
-        model="",
+        model="gpt-4o-mini",
         input=text,
     ).output_text
 
