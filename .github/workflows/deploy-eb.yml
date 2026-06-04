@@ -49,8 +49,15 @@ jobs:
         working-directory: frontend
         run: npm run build
 
+      - name: Verify frontend build output
+        run: |
+          test -f frontend/dist/index.html
+          test -d frontend/dist/assets
+          grep -q "/assets/" frontend/dist/index.html
+
       - name: Create deployment package
         run: |
+          rm -f deploy.zip
           zip -r deploy.zip . \
             -x ".git/*" \
             -x ".github/*" \
@@ -65,6 +72,8 @@ jobs:
             -x "backend/staticfiles/*" \
             -x "frontend/.env.local" \
             -x ".elasticbeanstalk/*"
+          unzip -l deploy.zip | grep "frontend/dist/index.html"
+          unzip -l deploy.zip | grep "frontend/dist/assets/"
 
       - name: Deploy to Elastic Beanstalk
         uses: einaregilsson/beanstalk-deploy@v22
