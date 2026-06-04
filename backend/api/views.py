@@ -1,5 +1,7 @@
 import json
 
+
+import os
 from django.conf import settings
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -17,7 +19,7 @@ def with_cors(request, response):
 
 
 def ping(request):
-    return with_cors(request, JsonResponse({"ok": True, "message": "pong"}))
+    return with_cors(request, JsonResponse({"ok": True, "message": os.getenv("HELLO_ENV")}))
 
 
 @csrf_exempt
@@ -44,4 +46,4 @@ def message(request):
         input=text,
     ).output_text
 
-    return with_cors(request, JsonResponse({"ok": True, "message": response}))
+    return with_cors(request, JsonResponse({"ok": True, "message": os.getenv("HELLO_ENV")}))
