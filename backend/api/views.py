@@ -37,12 +37,6 @@ def message(request):
     if not isinstance(text, str):
         return with_cors(request, JsonResponse({"ok": False, "error": "text must be a string"}, status=400))
 
-    if not settings.OPENAI_API_KEY:
-        return with_cors(
-            request,
-            JsonResponse({"ok": False, "error": "OPENAI_API_KEY is not configured"}, status=500),
-        )
-
     client = OpenAI(api_key=settings.OPENAI_API_KEY)
 
     response = client.responses.create(
