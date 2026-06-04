@@ -39,11 +39,11 @@ def message(request):
     if not isinstance(text, str):
         return with_cors(request, JsonResponse({"ok": False, "error": "text must be a string"}, status=400))
 
-    client = OpenAI(api_key=settings.OPENAI_API_KEY)
+    client = OpenAI()
 
     response = client.responses.create(
-        model=settings.OPENAI_MODEL,
+        model="",
         input=text,
     ).output_text
 
-    return with_cors(request, JsonResponse({"ok": True, "message": os.getenv("HELLO_ENV")}))
+    return with_cors(request, JsonResponse({"ok": True, "message": response}))
